@@ -1,242 +1,154 @@
 ---
-title : "Prerequiste"
-date : 2024-01-01 
-weight : 2 
+title : "Prerequisite"
+date : 2024-01-01
+weight : 2
 chapter : false
 pre : " <b> 5.2. </b> "
 ---
 
-#### IAM permissions
-Add the following IAM permission policy to your user account to deploy and cleanup this workshop.
-```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-                "cloudformation:*",
-                "cloudwatch:*",
-                "ec2:AcceptTransitGatewayPeeringAttachment",
-                "ec2:AcceptTransitGatewayVpcAttachment",
-                "ec2:AllocateAddress",
-                "ec2:AssociateAddress",
-                "ec2:AssociateIamInstanceProfile",
-                "ec2:AssociateRouteTable",
-                "ec2:AssociateSubnetCidrBlock",
-                "ec2:AssociateTransitGatewayRouteTable",
-                "ec2:AssociateVpcCidrBlock",
-                "ec2:AttachInternetGateway",
-                "ec2:AttachNetworkInterface",
-                "ec2:AttachVolume",
-                "ec2:AttachVpnGateway",
-                "ec2:AuthorizeSecurityGroupEgress",
-                "ec2:AuthorizeSecurityGroupIngress",
-                "ec2:CreateClientVpnEndpoint",
-                "ec2:CreateClientVpnRoute",
-                "ec2:CreateCustomerGateway",
-                "ec2:CreateDhcpOptions",
-                "ec2:CreateFlowLogs",
-                "ec2:CreateInternetGateway",
-                "ec2:CreateLaunchTemplate",
-                "ec2:CreateNetworkAcl",
-                "ec2:CreateNetworkInterface",
-                "ec2:CreateNetworkInterfacePermission",
-                "ec2:CreateRoute",
-                "ec2:CreateRouteTable",
-                "ec2:CreateSecurityGroup",
-                "ec2:CreateSubnet",
-                "ec2:CreateSubnetCidrReservation",
-                "ec2:CreateTags",
-                "ec2:CreateTransitGateway",
-                "ec2:CreateTransitGatewayPeeringAttachment",
-                "ec2:CreateTransitGatewayPrefixListReference",
-                "ec2:CreateTransitGatewayRoute",
-                "ec2:CreateTransitGatewayRouteTable",
-                "ec2:CreateTransitGatewayVpcAttachment",
-                "ec2:CreateVpc",
-                "ec2:CreateVpcEndpoint",
-                "ec2:CreateVpcEndpointConnectionNotification",
-                "ec2:CreateVpcEndpointServiceConfiguration",
-                "ec2:CreateVpnConnection",
-                "ec2:CreateVpnConnectionRoute",
-                "ec2:CreateVpnGateway",
-                "ec2:DeleteCustomerGateway",
-                "ec2:DeleteFlowLogs",
-                "ec2:DeleteInternetGateway",
-                "ec2:DeleteNetworkInterface",
-                "ec2:DeleteNetworkInterfacePermission",
-                "ec2:DeleteRoute",
-                "ec2:DeleteRouteTable",
-                "ec2:DeleteSecurityGroup",
-                "ec2:DeleteSubnet",
-                "ec2:DeleteSubnetCidrReservation",
-                "ec2:DeleteTags",
-                "ec2:DeleteTransitGateway",
-                "ec2:DeleteTransitGatewayPeeringAttachment",
-                "ec2:DeleteTransitGatewayPrefixListReference",
-                "ec2:DeleteTransitGatewayRoute",
-                "ec2:DeleteTransitGatewayRouteTable",
-                "ec2:DeleteTransitGatewayVpcAttachment",
-                "ec2:DeleteVpc",
-                "ec2:DeleteVpcEndpoints",
-                "ec2:DeleteVpcEndpointServiceConfigurations",
-                "ec2:DeleteVpnConnection",
-                "ec2:DeleteVpnConnectionRoute",
-                "ec2:Describe*",
-                "ec2:DetachInternetGateway",
-                "ec2:DisassociateAddress",
-                "ec2:DisassociateRouteTable",
-                "ec2:GetLaunchTemplateData",
-                "ec2:GetTransitGatewayAttachmentPropagations",
-                "ec2:ModifyInstanceAttribute",
-                "ec2:ModifySecurityGroupRules",
-                "ec2:ModifyTransitGatewayVpcAttachment",
-                "ec2:ModifyVpcAttribute",
-                "ec2:ModifyVpcEndpoint",
-                "ec2:ReleaseAddress",
-                "ec2:ReplaceRoute",
-                "ec2:RevokeSecurityGroupEgress",
-                "ec2:RevokeSecurityGroupIngress",
-                "ec2:RunInstances",
-                "ec2:StartInstances",
-                "ec2:StopInstances",
-                "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
-                "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
-                "iam:AddRoleToInstanceProfile",
-                "iam:AttachRolePolicy",
-                "iam:CreateInstanceProfile",
-                "iam:CreatePolicy",
-                "iam:CreateRole",
-                "iam:DeleteInstanceProfile",
-                "iam:DeletePolicy",
-                "iam:DeleteRole",
-                "iam:DeleteRolePolicy",
-                "iam:DetachRolePolicy",
-                "iam:GetInstanceProfile",
-                "iam:GetPolicy",
-                "iam:GetRole",
-                "iam:GetRolePolicy",
-                "iam:ListPolicyVersions",
-                "iam:ListRoles",
-                "iam:PassRole",
-                "iam:PutRolePolicy",
-                "iam:RemoveRoleFromInstanceProfile",
-                "lambda:CreateFunction",
-                "lambda:DeleteFunction",
-                "lambda:DeleteLayerVersion",
-                "lambda:GetFunction",
-                "lambda:GetLayerVersion",
-                "lambda:InvokeFunction",
-                "lambda:PublishLayerVersion",
-                "logs:CreateLogGroup",
-                "logs:DeleteLogGroup",
-                "logs:DescribeLogGroups",
-                "logs:PutRetentionPolicy",
-                "route53:ChangeTagsForResource",
-                "route53:CreateHealthCheck",
-                "route53:CreateHostedZone",
-                "route53:CreateTrafficPolicy",
-                "route53:DeleteHostedZone",
-                "route53:DisassociateVPCFromHostedZone",
-                "route53:GetHostedZone",
-                "route53:ListHostedZones",
-                "route53domains:ListDomains",
-                "route53domains:ListOperations",
-                "route53domains:ListTagsForDomain",
-                "route53resolver:AssociateResolverEndpointIpAddress",
-                "route53resolver:AssociateResolverRule",
-                "route53resolver:CreateResolverEndpoint",
-                "route53resolver:CreateResolverRule",
-                "route53resolver:DeleteResolverEndpoint",
-                "route53resolver:DeleteResolverRule",
-                "route53resolver:DisassociateResolverEndpointIpAddress",
-                "route53resolver:DisassociateResolverRule",
-                "route53resolver:GetResolverEndpoint",
-                "route53resolver:GetResolverRule",
-                "route53resolver:ListResolverEndpointIpAddresses",
-                "route53resolver:ListResolverEndpoints",
-                "route53resolver:ListResolverRuleAssociations",
-                "route53resolver:ListResolverRules",
-                "route53resolver:ListTagsForResource",
-                "route53resolver:UpdateResolverEndpoint",
-                "route53resolver:UpdateResolverRule",
-                "s3:AbortMultipartUpload",
-                "s3:CreateBucket",
-                "s3:DeleteBucket",
-                "s3:DeleteObject",
-                "s3:GetAccountPublicAccessBlock",
-                "s3:GetBucketAcl",
-                "s3:GetBucketOwnershipControls",
-                "s3:GetBucketPolicy",
-                "s3:GetBucketPolicyStatus",
-                "s3:GetBucketPublicAccessBlock",
-                "s3:GetObject",
-                "s3:GetObjectVersion",
-                "s3:GetBucketVersioning",
-                "s3:ListAccessPoints",
-                "s3:ListAccessPointsForObjectLambda",
-                "s3:ListAllMyBuckets",
-                "s3:ListBucket",
-                "s3:ListBucketMultipartUploads",
-                "s3:ListBucketVersions",
-                "s3:ListJobs",
-                "s3:ListMultipartUploadParts",
-                "s3:ListMultiRegionAccessPoints",
-                "s3:ListStorageLensConfigurations",
-                "s3:PutAccountPublicAccessBlock",
-                "s3:PutBucketAcl",
-                "s3:PutBucketPolicy",
-                "s3:PutBucketPublicAccessBlock",
-                "s3:PutObject",
-                "secretsmanager:CreateSecret",
-                "secretsmanager:DeleteSecret",
-                "secretsmanager:DescribeSecret",
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:ListSecrets",
-                "secretsmanager:ListSecretVersionIds",
-                "secretsmanager:PutResourcePolicy",
-                "secretsmanager:TagResource",
-                "secretsmanager:UpdateSecret",
-                "sns:ListTopics",
-                "ssm:DescribeInstanceProperties",
-                "ssm:DescribeSessions",
-                "ssm:GetConnectionStatus",
-                "ssm:GetParameters",
-                "ssm:ListAssociations",
-                "ssm:ResumeSession",
-                "ssm:StartSession",
-                "ssm:TerminateSession"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+#### Environment Prerequisites
 
+Before deploying the **Smart Attendance SaaS Platform**, ensure that your local development environment or AWS Cloud9 workspace is properly configured. This workshop requires several development tools, AWS credentials, and access permissions to provision serverless resources.
+
+The following software should be installed before continuing:
+
++ **AWS CLI v2** – Used to communicate with AWS services from the command line.
++ **AWS SAM CLI** – Used to build, package, test, and deploy AWS Serverless applications.
++ **Node.js (v20 or later)** and **npm** – Required for the React frontend and Lambda dependencies.
++ **Git** – Used to clone and manage the workshop source code.
+
+Verify the installation by running:
+
+```bash
+aws --version
+sam --version
+node -v
+npm -v
+git --version
 ```
 
-#### Provision resources using CloudFormation
+After confirming that all tools are installed correctly, you can continue with the AWS account configuration.
 
-In this lab, we will use **N.Virginia region (us-east-1)**.
+---
 
-To prepare the workshop environment, deploy this **CloudFormation Template** (click link): [PrivateLinkWorkshop ](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://s3.us-east-1.amazonaws.com/reinvent-endpoints-builders-session/Nested.yaml&stackName=PLCloudSetup). Accept all of the defaults when deploying the template. 
+#### Create an IAM User
 
-![create stack](/images/5-Workshop/5.2-Prerequisite/create-stack1.png)
+For security reasons, AWS recommends **never using the Root Account** for daily development activities.
 
-+ Tick 2 acknowledgement boxes
-+ Choose **Create stack**
+Create a dedicated IAM User with administrative permissions by following these steps:
 
-![create stack](/images/5-Workshop/5.2-Prerequisite/create-stack2.png)
++ Sign in to the AWS Management Console.
++ Navigate to **IAM → Users**.
++ Choose **Create user**.
++ Enter a user name such as **WorkshopAdmin**.
++ (Optional) Enable AWS Management Console access.
++ Click **Next**.
 
-The **ClouddFormation** deployment requires about 15 minutes to complete.
+Attach the required permissions:
 
-![complete](/images/5-Workshop/5.2-Prerequisite/complete.png)
++ Select **Attach policies directly**.
++ Search for and select **AdministratorAccess**.
++ Review the configuration.
++ Click **Create user**.
 
-+ **2 VPCs** have been created
+This IAM user will be used throughout the workshop to deploy AWS resources using AWS SAM.
 
-![vpcs](/images/5-Workshop/5.2-Prerequisite/vpcs.png)
+---
 
-+ **3 EC2s** have been created
+#### Generate Access Keys
 
-![EC2](/images/5-Workshop/5.2-Prerequisite/ec2.png)
+After creating the IAM User:
+
++ Open the newly created user.
++ Select the **Security credentials** tab.
++ Under **Access keys**, choose **Create access key**.
++ Select **Command Line Interface (CLI)** as the intended use.
++ Confirm the AWS recommendation.
++ (Optional) Add a description such as **Workshop AWS CLI**.
++ Click **Create access key**.
+
+Download the generated **CSV file** immediately and store it securely.
+
+The generated credentials include:
+
++ Access Key ID
++ Secret Access Key
+
+These credentials will be used to authenticate the AWS CLI.
+
+---
+
+#### Configure AWS CLI
+
+Open your terminal and execute:
+
+```bash
+aws configure
+```
+
+Provide the following information:
+
+```text
+AWS Access Key ID:
+AWS Secret Access Key:
+Default region:
+ap-southeast-1
+
+Default output format:
+json
+```
+
+Verify that the configuration is successful by running:
+
+```bash
+aws sts get-caller-identity
+```
+
+If your **UserId**, **Account**, and **ARN** are displayed successfully, your AWS CLI has been configured correctly.
+
+---
+
+#### Clone the Workshop Repository
+
+Navigate to your preferred working directory and clone the workshop source code.
+
+```bash
+cd ~/Documents/AWS
+
+git clone https://github.com/karos2504/fcaj-workshop-template.git
+
+cd smart-attendance-saas
+```
+
+The project structure is organized as follows:
+
+```text
+smart-attendance-saas/
+│
+├── backend/
+│   ├── src/
+│   ├── template.yaml
+│   └── samconfig.toml
+│
+├── frontend/
+│   ├── src/
+│   └── package.json
+│
+└── platform_architecture.drawio
+```
+
+Where:
+
++ **backend/** contains the AWS SAM serverless application.
++ **frontend/** contains the React Single Page Application.
++ **template.yaml** defines the AWS infrastructure.
++ **samconfig.toml** stores deployment parameters.
++ **platform_architecture.drawio** contains the system architecture diagram.
+
+---
+
+#### Ready for Deployment
+
+After completing all prerequisite steps, your development environment is fully prepared.
+
+You are now ready to proceed with the next module, where the Smart Attendance SaaS backend will be deployed using **AWS SAM**, followed by configuring Amazon Cognito, Amazon API Gateway, AWS Lambda, Amazon DynamoDB, and other AWS Serverless services required by the application.
