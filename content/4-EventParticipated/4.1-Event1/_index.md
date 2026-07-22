@@ -6,10 +6,6 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-{{% notice warning %}}
-**Note:** The information below is written as a personal event summary and learning reflection. It should be reviewed and adapted before being reused in another report.
-{{% /notice %}}
-
 # Summary Report: “FCJ Community Day – Stop Procrastinating, Start Building”
 
 ## Event Information
@@ -452,6 +448,6 @@ It reminded me that technical improvement requires more than planning, watching 
 The event encouraged me to start with what I currently know, accept incomplete conditions, and improve through continuous implementation.
 
 ## Some Event Photos
-static/images/4-EventParticipated/anhevent30-05-2026.jpg
+static/images/anhevent30-05-2026.jpg
 
 >Overall, the event strengthened my understanding of Systems Thinking, root-cause analysis, procrastination psychology, and practical AI product development. More importantly, it encouraged me to translate ideas into action, begin with small steps, and improve consistently through the process of building.

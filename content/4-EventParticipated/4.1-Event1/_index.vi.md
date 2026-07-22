@@ -6,10 +6,6 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-{{% notice warning %}}
-**Lưu ý:** Nội dung dưới đây được trình bày dưới dạng báo cáo và cảm nhận cá nhân sau sự kiện. Nội dung cần được kiểm tra và điều chỉnh trước khi sử dụng trong một báo cáo khác.
-{{% /notice %}}
-
 # Báo cáo tóm tắt: “FCJ Community Day – Stop Procrastinating, Start Building”
 
 ## Thông tin sự kiện
@@ -452,6 +448,6 @@ Nó nhắc nhở em rằng cải thiện kỹ năng kỹ thuật cần nhiều h
 Sự kiện khuyến khích em bắt đầu với kiến thức hiện có, chấp nhận điều kiện chưa hoàn hảo và cải thiện liên tục thông qua quá trình triển khai thực tế.
 
 ## Hình ảnh sự kiện
-static/images/4-EventParticipated/anhevent30-05-2026.jpg
+static/images/anhevent30-05-2026.jpg
 
 >Nhìn chung, sự kiện giúp em hiểu rõ hơn về Systems Thinking, phân tích nguyên nhân gốc, tâm lý học của sự trì hoãn và quá trình phát triển sản phẩm AI trong thực tế. Quan trọng hơn, chương trình khuyến khích em chuyển ý tưởng thành hành động, bắt đầu bằng những bước nhỏ và liên tục cải thiện thông qua quá trình xây dựng sản phẩm.
