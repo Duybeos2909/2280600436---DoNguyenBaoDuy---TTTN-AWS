@@ -1,295 +1,292 @@
 ---
-title: "Bản đề xuất"
+title: "Đề xuất giải pháp"
 date: 2024-01-01
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
 
-Trong phần này, tôi trình bày đề xuất kiến trúc hệ thống và kế hoạch triển khai cho dự án **Smart Attendance SaaS**, được thiết kế trong quá trình thực tập với vai trò **Cloud Serverless Architect**.
+Trong phần này, em trình bày đề xuất kiến trúc hệ thống, kế hoạch triển khai và giải pháp kỹ thuật cho dự án **Smart Attendance SaaS Platform**, được nghiên cứu trong quá trình thực tập với vai trò **Cloud Serverless Architect**.
 
-# Smart Attendance SaaS
-## Hệ thống quản lý chấm công đa Tenant trên nền tảng AWS Serverless
+# Smart Attendance SaaS Platform
+## Giải pháp chấm công thông minh Hybrid (Local & Cloud-Ready)
 
 ---
 
 ## 1. Tổng quan dự án
 
-Smart Attendance SaaS là nền tảng quản lý chấm công đa tenant được xây dựng theo mô hình Cloud Native trên Amazon Web Services (AWS) với kiến trúc Serverless.
+Smart Attendance SaaS Platform là nền tảng quản lý chấm công được xây dựng nhằm hỗ trợ doanh nghiệp và tổ chức quản lý nhân viên, điểm danh, báo cáo và xác thực người dùng trên một hệ thống tập trung.
 
-Hệ thống cho phép nhân viên thực hiện Check-in và Check-out thông qua GPS kết hợp Geofencing, đồng thời hỗ trợ quản trị viên theo dõi dữ liệu chấm công, quản lý nhân viên, nhận thông báo và tạo báo cáo chấm công theo tháng.
+Hệ thống được thiết kế theo mô hình Hybrid, cho phép vừa phát triển và kiểm thử trên môi trường Local, vừa sẵn sàng triển khai lên AWS Cloud trong tương lai.
 
-Giải pháp được đề xuất tập trung vào khả năng mở rộng, tính sẵn sàng cao, bảo mật và tối ưu chi phí bằng cách sử dụng các dịch vụ AWS Serverless thay cho mô hình triển khai máy chủ truyền thống.
+Các chức năng chính bao gồm:
+
+- Đăng nhập
+- Đăng ký
+- Check-in
+- Check-out
+- Dashboard
+- Báo cáo chấm công
+- Xuất báo cáo
+
+Frontend được xây dựng bằng HTML/CSS, backend sử dụng Node.js và Express với cấu trúc module rõ ràng (`server.js`, `src/handler`, `src/shared`) giúp dễ dàng bảo trì, mở rộng và triển khai lên môi trường Cloud.
+
+Đối với phiên bản Production, hệ thống được đề xuất triển khai trên AWS Serverless nhằm đảm bảo khả năng mở rộng, tính sẵn sàng cao, tối ưu chi phí và tăng cường bảo mật.
 
 ---
 
-## 2. Bài toán đặt ra
+## 2. Đặt vấn đề
 
-### Vấn đề cần giải quyết
+### Thực trạng
 
-Hiện nay nhiều doanh nghiệp vừa và nhỏ vẫn sử dụng hình thức chấm công thủ công hoặc các hệ thống triển khai tại chỗ (On-Premises), dẫn đến chi phí vận hành cao và khó mở rộng.
+Hiện nay nhiều doanh nghiệp nhỏ và vừa vẫn sử dụng phương pháp chấm công thủ công hoặc nhiều hệ thống rời rạc, gây ra nhiều hạn chế trong quá trình quản lý.
 
-Một số hạn chế phổ biến gồm:
+Các vấn đề thường gặp gồm:
 
-- Chấm công thủ công.
-- Khó quản lý nhiều công ty trên cùng một hệ thống.
-- Chi phí bảo trì hạ tầng lớn.
-- Không hỗ trợ thông báo theo thời gian thực.
-- Khả năng mở rộng hạn chế.
-- Khó giám sát và thống kê dữ liệu.
+- Không theo dõi được trạng thái chấm công theo thời gian thực.
+- Dữ liệu điểm danh dễ sai lệch hoặc trùng lặp.
+- Quản lý tài khoản và phân quyền còn thủ công.
+- Khó tổng hợp báo cáo.
+- Khó mở rộng khi số lượng người dùng tăng.
+- Mất nhiều thời gian bảo trì hạ tầng máy chủ.
 
-### Giải pháp đề xuất
+### Giải pháp
 
-Giải pháp đề xuất sử dụng kiến trúc AWS Serverless hoàn toàn, giúp loại bỏ việc quản lý máy chủ nhưng vẫn đảm bảo tính bảo mật, khả năng mở rộng và đáp ứng mô hình SaaS.
+Smart Attendance SaaS Platform được xây dựng nhằm số hóa toàn bộ quy trình chấm công.
 
-Kiến trúc được xây dựng theo các nguyên tắc của **AWS Well-Architected Framework**, tập trung vào:
+Người dùng thao tác thông qua các giao diện:
 
-- Security (Bảo mật)
-- Reliability (Độ tin cậy)
-- Performance Efficiency (Hiệu năng)
-- Operational Excellence (Vận hành)
-- Cost Optimization (Tối ưu chi phí)
+- Login
+- Register
+- Check-in
+- Check-out
+- Dashboard
 
-Hệ thống sử dụng các dịch vụ:
+Backend được phát triển bằng Node.js và Express với cấu trúc module độc lập giúp dễ dàng phát triển và tích hợp lên AWS.
 
+Kiến trúc Cloud sử dụng các dịch vụ AWS Managed Services nhằm đảm bảo:
+
+- Khả năng mở rộng tự động.
+- Bảo mật.
+- Hiệu năng.
+- Tính sẵn sàng cao.
+- Tối ưu chi phí.
+
+Các dịch vụ AWS được đề xuất bao gồm:
+
+- Amazon Route 53
+- Amazon CloudFront
+- AWS WAF
+- Amazon S3
 - Amazon Cognito
+- AWS Secrets Manager
 - Amazon API Gateway
 - AWS Lambda
 - Amazon DynamoDB
+- DynamoDB Streams
 - Amazon EventBridge
 - Amazon SQS
 - Amazon SNS
 - Amazon SES
-- AWS Location Service
 - AWS Step Functions
+- AWS KMS
 - Amazon CloudWatch
+- AWS X-Ray
+- AWS CloudFormation
+- AWS CodePipeline
+- AWS CodeBuild
+- AWS Security Hub
+- Amazon GuardDuty
 
 ### Lợi ích mang lại
 
-Giải pháp mang lại nhiều lợi ích như:
+Giải pháp giúp:
 
-- Giảm chi phí vận hành nhờ kiến trúc Serverless.
-- Tự động mở rộng theo lưu lượng sử dụng.
-- Đảm bảo tính sẵn sàng cao.
-- Xác thực người dùng an toàn bằng Amazon Cognito.
-- Xử lý bất đồng bộ thông qua kiến trúc Event-Driven.
-- Hỗ trợ mô hình Multi-Tenant dễ dàng mở rộng trong tương lai.
-
-Ngoài ra, kiến trúc còn đóng vai trò là mô hình tham khảo cho các doanh nghiệp mong muốn hiện đại hóa hệ thống chấm công trên nền tảng AWS.
+- Tự động hóa quy trình chấm công.
+- Giảm chi phí vận hành.
+- Hỗ trợ đa doanh nghiệp (Multi-Tenant).
+- Theo dõi dữ liệu theo thời gian thực.
+- Dễ dàng mở rộng hệ thống.
+- Triển khai nhanh nhờ mô hình Serverless.
+- Đảm bảo bảo mật và phân quyền người dùng.
 
 ---
 
 ## 3. Kiến trúc giải pháp
 
-Smart Attendance SaaS được xây dựng theo kiến trúc AWS Serverless hoàn toàn.
+Hệ thống được thiết kế theo mô hình Hybrid.
 
-Người dùng xác thực thông qua Amazon Cognito trước khi truy cập các dịch vụ Backend được cung cấp bởi Amazon API Gateway.
+Trong giai đoạn phát triển, frontend giao tiếp với backend Node.js thông qua Express.
 
-Toàn bộ nghiệp vụ được xử lý bởi AWS Lambda, trong khi dữ liệu chấm công được lưu trên Amazon DynamoDB theo mô hình Pooled Multi-Tenant.
+Khi triển khai lên AWS, hệ thống sử dụng kiến trúc Serverless.
 
-Các tác vụ xử lý nền được thực hiện thông qua Amazon EventBridge và Amazon SQS, đồng thời Amazon SNS và Amazon SES được sử dụng để gửi thông báo và báo cáo.
+Frontend được lưu trên Amazon S3 và phân phối thông qua Amazon CloudFront.
 
-Thông tin vị trí GPS của nhân viên được kiểm tra bằng AWS Location Service trước khi chấp nhận bản ghi chấm công.
+Amazon Route 53 chịu trách nhiệm phân giải tên miền.
 
-Sơ đồ kiến trúc được minh họa bên dưới.
+AWS WAF và AWS Shield Standard bảo vệ hệ thống trước các cuộc tấn công từ Internet.
+
+Người dùng xác thực thông qua Amazon Cognito.
+
+Sau khi đăng nhập thành công, JWT Token sẽ được gửi tới API Gateway để truy cập các Lambda Function.
+
+Toàn bộ nghiệp vụ được xử lý bằng AWS Lambda.
+
+Các quy trình bất đồng bộ sử dụng:
+
+- Amazon EventBridge
+- Amazon SQS
+- AWS Step Functions
+
+Dữ liệu được lưu trên Amazon DynamoDB theo mô hình Single Table Design.
+
+Amazon SES chịu trách nhiệm gửi Email.
+
+Amazon CloudWatch và AWS X-Ray phục vụ giám sát và theo dõi hệ thống.
+
+Kiến trúc tổng thể được minh họa bên dưới.
 
 ![Smart Attendance SaaS Architecture](/images/2-Proposal/SaaS_Serverless.jpg)
 
 ### Các dịch vụ AWS sử dụng
 
 - Amazon Route 53
-- AWS WAF
 - Amazon CloudFront
+- AWS Shield Standard
+- AWS WAF
 - Amazon S3
 - Amazon Cognito
+- AWS Secrets Manager
 - Amazon API Gateway
 - AWS Lambda
 - Amazon DynamoDB
+- DynamoDB Streams
 - Amazon EventBridge
 - Amazon SQS
 - Amazon SNS
 - Amazon SES
-- AWS Location Service
 - AWS Step Functions
+- AWS KMS
 - Amazon CloudWatch
-- AWS IAM
+- AWS X-Ray
 - AWS CloudFormation
-
-### Thiết kế các thành phần
-
-**Frontend**
-
-- Ứng dụng React được lưu trữ trên Amazon S3.
-- Amazon CloudFront phân phối nội dung.
-
-**Xác thực**
-
-- Amazon Cognito User Pool.
-- Xác thực bằng JWT.
-
-**Backend**
-
-- Amazon API Gateway.
-- AWS Lambda.
-
-**Cơ sở dữ liệu**
-
-- Amazon DynamoDB theo mô hình Pooled Multi-Tenant.
-
-**Hệ thống nhắn tin**
-
-- Amazon EventBridge.
-- Amazon SQS.
-- Amazon SNS.
-- Amazon SES.
-
-**Kiểm tra vị trí**
-
-- AWS Location Service.
-
-**Giám sát**
-
-- Amazon CloudWatch.
+- AWS CodePipeline
+- AWS CodeBuild
+- AWS Security Hub
+- Amazon GuardDuty
 
 ---
 
 ## 4. Kế hoạch triển khai
 
-### Các giai đoạn thực hiện
+### Giai đoạn 1
 
-Dự án được chia thành bốn giai đoạn.
+- Phân tích yêu cầu hệ thống.
+- Thiết kế kiến trúc AWS.
+- Xây dựng Frontend.
+- Xây dựng Backend.
+- Thiết kế DynamoDB.
+- Triển khai API Gateway.
+- Triển khai Lambda.
+- Cấu hình Cognito.
+- Thiết lập EventBridge, SQS và SES.
+- Cấu hình CloudWatch.
 
-**Giai đoạn 1**
+### Giai đoạn 2
 
-- Nghiên cứu yêu cầu nghiệp vụ.
-- Tìm hiểu các dịch vụ AWS.
-- Thiết kế kiến trúc Serverless ban đầu.
-
-**Giai đoạn 2**
-
-- Thiết kế xác thực bằng Amazon Cognito.
-- Thiết kế RESTful API.
-- Xây dựng mô hình dữ liệu DynamoDB.
-
-**Giai đoạn 3**
-
-- Thiết kế kiến trúc Event-Driven.
-- Tích hợp AWS Location Service.
-- Thiết kế quy trình gửi thông báo.
-
-**Giai đoạn 4**
-
-- Tối ưu kiến trúc tổng thể.
-- Ước tính chi phí triển khai.
-- Hoàn thiện tài liệu kỹ thuật.
-- Chuẩn bị báo cáo và thuyết trình.
+- Tối ưu hiệu năng.
+- Thiết lập CI/CD.
+- Tích hợp CodePipeline.
+- Hoàn thiện CloudFormation.
+- Tăng cường bảo mật với GuardDuty và Security Hub.
+- Mở rộng Multi-Tenant.
+- Chuẩn bị triển khai Production.
 
 ### Yêu cầu kỹ thuật
 
-Dự án yêu cầu kiến thức về:
-
-- AWS Serverless Architecture
+- HTML
+- CSS
+- JavaScript
+- Node.js
+- Express
+- REST API
+- AWS Serverless
 - Amazon Cognito
-- Amazon API Gateway
+- API Gateway
 - AWS Lambda
-- Amazon DynamoDB
-- Amazon EventBridge
+- DynamoDB
+- EventBridge
 - Amazon SQS
 - Amazon SNS
 - Amazon SES
-- AWS Location Service
 - AWS Step Functions
-- Amazon CloudWatch
+- AWS KMS
+- CloudWatch
+- AWS CloudFormation
 
 ---
 
 ## 5. Tiến độ thực hiện
 
-### Kế hoạch theo từng tuần
-
-**Tuần 1**
-
-Tìm hiểu AWS Cloud và yêu cầu dự án.
-
-**Tuần 2**
-
-Nghiên cứu các dịch vụ AWS.
-
-**Tuần 3**
-
-Thiết kế kiến trúc ban đầu.
-
-**Tuần 4**
-
-Thiết kế xác thực bằng Amazon Cognito.
-
-**Tuần 5**
-
-Thiết kế Backend và cơ sở dữ liệu.
-
-**Tuần 6**
-
-Thiết kế kiến trúc Event-Driven.
-
 **Tuần 7**
 
-Tích hợp chức năng xác thực vị trí GPS.
+Khảo sát yêu cầu và phân tích nghiệp vụ.
 
 **Tuần 8**
 
-Thiết kế quy trình tạo báo cáo.
+Thiết kế kiến trúc AWS Serverless.
 
 **Tuần 9**
 
-Tăng cường bảo mật và giám sát hệ thống.
+Triển khai hạ tầng và cơ sở dữ liệu.
 
 **Tuần 10**
 
-Ước tính chi phí bằng AWS Pricing Calculator.
+Xây dựng Authentication và API Gateway.
 
 **Tuần 11**
 
-Hoàn thiện sơ đồ kiến trúc và tài liệu kỹ thuật.
+Hoàn thiện Lambda, Event-Driven Architecture và Notification.
 
 **Tuần 12**
 
-Hoàn thiện báo cáo và chuẩn bị bảo vệ.
+Kiểm thử, tối ưu và hoàn thiện tài liệu.
 
 ---
 
-## 6. Ước tính chi phí
+## 6. Dự toán chi phí
 
-Chi phí hạ tầng được ước tính bằng AWS Pricing Calculator với quy mô triển khai nhỏ phục vụ mục đích học tập và trình diễn.
+Chi phí được ước tính bằng AWS Pricing Calculator với Region Singapore.
 
-### Chi phí các dịch vụ
+### Chi phí hạ tầng
 
-- Amazon Route 53: **0.90 USD/tháng**
-- AWS WAF: **8.03 USD/tháng**
-- Amazon CloudFront: **2.50 USD/tháng**
-- Amazon S3: **0.35 USD/tháng**
-- Amazon Cognito: **0.00 USD/tháng**
-- Amazon API Gateway: **0.21 USD/tháng**
-- AWS Lambda: **0.81 USD/tháng**
-- Amazon DynamoDB: **0.70 USD/tháng**
-- AWS Location Service: **1.00 USD/tháng**
-- Amazon EventBridge: **0.05 USD/tháng**
-- Amazon SQS: **0.04 USD/tháng**
-- Amazon SNS: **0.02 USD/tháng**
-- Amazon SES: **0.50 USD/tháng**
-- AWS Step Functions: **0.25 USD/tháng**
-- Amazon CloudWatch Logs: **3.80 USD/tháng**
-- CloudWatch Metrics & Alarms: **1.00 USD/tháng**
-- CloudWatch Dashboard: **3.00 USD/tháng**
-- AWS Shield Standard: **0.00 USD/tháng**
-- AWS CloudFormation / AWS SAM: **0.00 USD/tháng**
+Amazon Route 53: **0.50 USD/tháng**
+
+AWS WAF: **6.00 USD/tháng**
+
+Amazon S3: **0.35 USD/tháng**
+
+AWS Secrets Manager: **0.40 USD/tháng**
+
+Amazon API Gateway: **0.20 USD/tháng**
+
+AWS Lambda: **1.85 USD/tháng**
+
+AWS Step Functions: **0.10 USD/tháng**
+
+Amazon DynamoDB: **0.60 USD/tháng**
+
+AWS KMS: **1.00 USD/tháng**
+
+Amazon SES: **0.10 USD/tháng**
+
+CloudWatch + X-Ray + Security Hub: **2.40 USD/tháng**
 
 ---
 
-**Tổng chi phí ước tính:** **Khoảng 23.16 USD/tháng**
+**Tổng chi phí ước tính:** **13.50 USD/tháng**
 
-**Chi phí ước tính mỗi năm:** **Khoảng 277.92 USD/năm**
-
-Mức chi phí này phù hợp với một hệ thống thử nghiệm (Prototype) và có thể tăng khi số lượng doanh nghiệp, nhân viên hoặc lưu lượng sử dụng hệ thống tăng lên.
+**Chi phí năm:** **162 USD/năm**
 
 ---
 
@@ -297,26 +294,32 @@ Mức chi phí này phù hợp với một hệ thống thử nghiệm (Prototyp
 
 ### Các rủi ro
 
-- Cấu hình sai dịch vụ AWS.
-- Giả mạo vị trí GPS khi chấm công.
-- AWS Lambda vượt thời gian thực thi.
-- Lỗi hàng đợi Amazon SQS.
-- Phân vùng nóng (Hot Partition) trên DynamoDB.
+- API quá tải.
+- Lambda Timeout.
+- Chi phí DynamoDB tăng.
+- Lỗi Queue.
+- Hot Partition.
+- Lỗi triển khai CI/CD.
+- Nguy cơ mất an toàn thông tin.
 
 ### Biện pháp giảm thiểu
 
-- Áp dụng nguyên tắc IAM Least Privilege.
-- Kiểm tra vị trí bằng AWS Location Service.
-- Sử dụng Dead Letter Queue cho Amazon SQS.
-- Theo dõi CloudWatch Metrics và Alarms.
-- Tối ưu Partition Key của DynamoDB.
+- Throttling API Gateway.
+- Sử dụng SQS + DLQ.
+- Thiết kế Partition Key hợp lý.
+- Least Privilege IAM.
+- Mã hóa bằng AWS KMS.
+- Giám sát CloudWatch.
+- Security Hub và GuardDuty.
 
 ### Kế hoạch dự phòng
 
-- Thiết lập CloudWatch Alarm.
-- Thực hiện Retry thông qua Amazon SQS.
-- Khôi phục dữ liệu bằng DynamoDB Backup.
-- Điều chỉnh kiến trúc dựa trên phản hồi của Mentor.
+- CloudFormation Rollback.
+- Backup DynamoDB.
+- Retry Queue.
+- CloudWatch Alarm.
+- Theo dõi X-Ray.
+- Cải tiến kiến trúc theo phản hồi của mentor.
 
 ---
 
@@ -324,16 +327,15 @@ Mức chi phí này phù hợp với một hệ thống thử nghiệm (Prototyp
 
 ### Kết quả kỹ thuật
 
-Dự án hướng tới các kết quả sau:
-
-- Kiến trúc AWS Serverless hoàn chỉnh.
-- Hệ thống SaaS đa tenant an toàn.
-- Kiến trúc Event-Driven.
-- Chức năng xác thực vị trí GPS.
-- Quy trình gửi thông báo tự động.
-- Ước tính chi phí bằng AWS Pricing Calculator.
-- Tài liệu kỹ thuật theo AWS Well-Architected Framework.
+- Hệ thống chấm công Serverless hoàn chỉnh.
+- Kiến trúc Multi-Tenant.
+- Authentication bằng Cognito.
+- Xử lý bất đồng bộ với EventBridge và SQS.
+- Báo cáo tự động.
+- Gửi Email bằng SES.
+- Giám sát bằng CloudWatch.
+- Triển khai bằng Infrastructure as Code.
 
 ### Giá trị lâu dài
 
-Giải pháp là mô hình tham khảo cho các doanh nghiệp muốn triển khai hệ thống chấm công trên nền tảng AWS Serverless, đồng thời tạo nền tảng để phát triển các ứng dụng SaaS Cloud-Native trong tương lai.
+Giải pháp tạo nền tảng để mở rộng thành hệ thống SaaS hoàn chỉnh, hỗ trợ nhiều doanh nghiệp, tích hợp GPS, Mobile App, Subscription, Payment Gateway và các dịch vụ AWS khác trong tương lai.
