@@ -6,39 +6,39 @@ chapter: false
 pre: " <b> 4. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** for your report, including this warning.
-{{% /notice %}}
+> During my internship, I actively participated in several community events organized by **First Cloud Journey AI (FCAJ)**. These events provided valuable opportunities to learn about AWS Cloud, Artificial Intelligence, DevOps, Cybersecurity, and personal development from industry experts.
+>
+> Through these activities, I gained practical knowledge, expanded my professional network, and strengthened both my technical and soft skills, which could be directly applied to my internship project and future career.
 
-> In this section, you should list and describe in detail the events you have participated in during your internship or work experience.  
-> 
-> Each event should be presented in the format Event 1, Event 2, Event 3…, along with the following details:
-> * Event name
-> * Date and time
-> * Location (if applicable)
-> * Your role in the event (attendee, event support, speaker, etc.)
-> * A brief description of the event’s content and main activities
-> * Outcomes or value gained (lessons learned, new skills, contribution to the team/project)
-> * This listing helps demonstrate your actual participation as well as the soft skills and experience you have gained from each event.
+During my internship, I participated in **three** community events. Each event offered unique learning experiences, practical technical knowledge, and valuable insights from experienced speakers in the cloud computing industry.
 
-During my internship, I participated in two events. Each one was a memorable experience that provided new, interesting, and useful knowledge, along with gifts and wonderful moments.
+### [Event 1](4.1-Event1/)
+&emsp;**Event Name:** FCJ Community Day - Stop Procrastinating, Start Building
 
-### [Event 1](4.1-Event1/)  
-&emsp;**Event Name:** GenAI-powered App-DB Modernization workshop  
+&emsp;**Date & Time:** 09:00 - 12:00, May 30, 2026
 
-&emsp;**Date & Time:** 09:00, August 13, 2025  
+&emsp;**Location:** Bitexco Financial Tower, Ho Chi Minh City
 
-&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City  
-
-&emsp;**Role:** Attendee  
+&emsp;**Role:** Attendee
 
 ---
 
-### [Event 2](4.2-Event2/)  
-&emsp;**Event Name:** GenAI-powered App-DB Modernization workshop  
+### [Event 2](4.2-Event2/)
+&emsp;**Event Name:** FCJ Community Day - From Zero to Cloud Hero
 
-&emsp;**Date & Time:** 09:00, August 13, 2025  
+&emsp;**Date & Time:** 09:00 - 12:00, June 6, 2026
 
-&emsp;**Location:** 26th Floor, Bitexco Tower, 02 Hai Trieu Street, Saigon Ward, Ho Chi Minh City  
+&emsp;**Location:** Bitexco Financial Tower, Ho Chi Minh City
 
-&emsp;**Role:** Attendee  
+&emsp;**Role:** Attendee
+
+---
+
+### [Event 3](4.3-Event3/)
+&emsp;**Event Name:** FCAJ Community Day - Data Driven, AI Risen
+
+&emsp;**Date & Time:** 09:00 - 12:00, June 27, 2026
+
+&emsp;**Location:** Online
+
+&emsp;**Role:** Attendee
