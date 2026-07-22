@@ -452,6 +452,6 @@ It reminded me that technical improvement requires more than planning, watching 
 The event encouraged me to start with what I currently know, accept incomplete conditions, and improve through continuous implementation.
 
 ## Some Event Photos
-anhevent30-05-2026.jpg
+static/images/4-EventParticipated/anhevent30-05-2026.jpg
 
 >Overall, the event strengthened my understanding of Systems Thinking, root-cause analysis, procrastination psychology, and practical AI product development. More importantly, it encouraged me to translate ideas into action, begin with small steps, and improve consistently through the process of building.
