@@ -24,17 +24,6 @@ Trong quá trình thực tập, em đã tham gia **03 sự kiện** do cộng đ
 ---
 
 ### [Sự kiện 2](4.2-Event2/)
-&emsp;**Tên sự kiện:** FCJ Community Day - From Zero to Cloud Hero
-
-&emsp;**Thời gian:** 09:00 - 12:00, Thứ Bảy ngày 06/06/2026
-
-&emsp;**Địa điểm:** Bitexco Financial Tower, Thành phố Hồ Chí Minh
-
-&emsp;**Vai trò:** Người tham dự (Attendee)
-
----
-
-### [Sự kiện 3](4.3-Event3/)
 &emsp;**Tên sự kiện:** FCAJ Community Day - Data Driven, AI Risen
 
 &emsp;**Thời gian:** 09:00 - 12:00, Thứ Bảy ngày 27/06/2026
@@ -42,3 +31,7 @@ Trong quá trình thực tập, em đã tham gia **03 sự kiện** do cộng đ
 &emsp;**Địa điểm:** Trực tuyến (Online)
 
 &emsp;**Vai trò:** Người tham dự (Attendee)
+
+---
+
+#

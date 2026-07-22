@@ -24,17 +24,6 @@ During my internship, I participated in **three** community events. Each event o
 ---
 
 ### [Event 2](4.2-Event2/)
-&emsp;**Event Name:** FCJ Community Day - From Zero to Cloud Hero
-
-&emsp;**Date & Time:** 09:00 - 12:00, June 6, 2026
-
-&emsp;**Location:** Bitexco Financial Tower, Ho Chi Minh City
-
-&emsp;**Role:** Attendee
-
----
-
-### [Event 3](4.3-Event3/)
 &emsp;**Event Name:** FCAJ Community Day - Data Driven, AI Risen
 
 &emsp;**Date & Time:** 09:00 - 12:00, June 27, 2026
@@ -42,3 +31,5 @@ During my internship, I participated in **three** community events. Each event o
 &emsp;**Location:** Online
 
 &emsp;**Role:** Attendee
+
+---
