@@ -1,31 +1,91 @@
 ---
 title: "Blog 2"
 date: 2024-01-01
-weight: 1
+weight: 2
 chapter: false
 pre: " <b> 3.2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-# SESSION POLICIES TRONG AMAZON EKS POD IDENTITY
+# AWS BACKUP – AWS Backup bổ sung Item-Level Recovery cho Amazon EBS và Amazon S3
 
-Amazon EKS Pod Identity vừa bổ sung tính năng session policies, cho phép bạn thu hẹp quyền IAM một cách linh hoạt và chính xác cho từng pod mà không cần tạo thêm nhiều IAM roles riêng biệt. Đây là bước tiến quan trọng giúp áp dụng nguyên tắc least privilege hiệu quả hơn trong môi trường Kubernetes quy mô lớn.
+Xin chào mọi người!
 
-Các điểm chính cần nắm:
+Một trong những tình huống khá phổ biến khi vận hành hệ thống là người dùng hoặc ứng dụng vô tình xóa nhầm dữ liệu. Đó có thể chỉ là một file cấu hình, một file log, một tài liệu PDF hoặc một video được lưu trên Amazon EBS hay Amazon S3. Tuy nhiên, trước đây việc khôi phục lại đúng một tệp như vậy lại không hề đơn giản.
 
-* Session policy là một IAM policy inline được chỉ định khi tạo hoặc cập nhật Pod Identity association.
-* Quyền hiệu quả = intersection (giao) giữa permissions của IAM role và session policy → session policy chỉ có thể thu hẹp, không thể mở rộng quyền.
-* Giúp tránh tình trạng over-permissioning khi reuse chung một IAM role cho nhiều workloads có nhu cầu khác nhau.
-* Hỗ trợ cả same-account và cross-account (qua IAM role chaining).
-* Giảm đáng kể số lượng IAM roles cần quản lý, tránh chạm giới hạn quota IAM trong cluster lớn.
-* Cấu hình dễ dàng qua AWS Management Console, AWS CLI hoặc AWS SDK khi tạo association giữa Kubernetes ServiceAccount và IAM role.
+Đối với Amazon EBS Snapshot hoặc các bản sao lưu được quản lý bởi AWS Backup, quản trị viên thường phải khôi phục toàn bộ volume, gắn volume vào EC2 rồi mới tìm và sao chép lại đúng file cần thiết. Quy trình này vừa mất thời gian, vừa phát sinh thêm chi phí lưu trữ và tài nguyên tính toán.
 
-Tính năng này đặc biệt hữu ích khi bạn có nhiều ứng dụng chạy trên cùng một IAM role nhưng cần giới hạn quyền khác nhau (ví dụ: một pod chỉ đọc S3 bucket cụ thể, pod khác chỉ gọi một số API nhất định).
+Để giải quyết vấn đề này, AWS đã giới thiệu **AWS Backup Search** và **Item-Level Recovery (ILR)**, cho phép tìm kiếm và khôi phục trực tiếp từng file riêng lẻ từ các bản sao lưu của Amazon EBS và Amazon S3.
 
-...Hình ảnh...
+---
 
-...Link...
+## 1. ITEM-LEVEL RECOVERY LÀ GÌ VÀ CÁC TRƯỜNG HỢP SỬ DỤNG THỰC TẾ
 
-...Hướng dẫn...
+**Item-Level Recovery (ILR)** là khả năng khôi phục dữ liệu ở cấp độ từng đối tượng (file hoặc object) thay vì phải khôi phục toàn bộ bản sao lưu.
+
+Điều này đồng nghĩa với việc nếu chỉ cần lấy lại một file duy nhất, bạn không còn phải restore cả một EBS Volume dung lượng hàng trăm GB hoặc nhiều TB nữa.
+
+Tính năng này giải quyết hiệu quả các bài toán thực tế:
+
+### Khôi phục file bị xóa nhầm
+
+Khi nhân viên vô tình xóa file cấu hình của ứng dụng hoặc một tài liệu quan trọng trên volume của EC2, quản trị viên chỉ cần tìm đúng file đó trong AWS Backup và thực hiện Item-Level Restore chỉ trong vài phút.
+
+### Phục vụ Audit và điều tra sự cố
+
+Dễ dàng truy xuất các tài liệu cũ như file PDF hợp đồng, báo cáo Excel, video giám sát hay file CSV xuất dữ liệu mà không cần mount snapshot hay restore cả volume.
+
+### Rút ngắn thời gian phục hồi (RTO)
+
+Giúp rút ngắn thời gian downtime của các hệ thống Production từ hàng giờ xuống chỉ còn vài phút khi sự cố mất file xảy ra.
+
+---
+
+## 2. CƠ CHẾ HOẠT ĐỘNG VÀ CÁC BƯỚC CHUẨN BỊ CHO DEVOPS / OPERATIONS
+
+Để hệ thống có thể xác định đúng file cần phục hồi mà không phải quét toàn bộ snapshot, AWS Backup dựa trên cơ chế **lập chỉ mục (Indexing) metadata** của các file trong quá trình tạo Backup.
+
+Các lưu ý và bước triển khai quan trọng gồm:
+
+### Bật Backup Indexing
+
+Đây là điều kiện tiên quyết khi tạo Backup Plan hoặc chạy On-Demand Backup để AWS lập chỉ mục dữ liệu.
+
+### Sử dụng Tag hợp lý
+
+Gắn Tag nhất quán giữa EC2 Instance, Amazon EBS Volume và Backup Vault để dễ dàng quản lý cũng như tìm kiếm trong môi trường có nhiều workload.
+
+### Sử dụng AWS Backup Search
+
+Truy vấn trực tiếp file cần tìm theo:
+
+- Tên file.
+- Đường dẫn.
+- Định dạng.
+- Khoảng thời gian.
+- Metadata.
+
+Sau khi xác định được file mong muốn, quản trị viên chỉ cần thực hiện **Item-Level Restore** thay vì khôi phục toàn bộ bản sao lưu.
+
+### Tối ưu vận hành và bảo vệ dữ liệu
+
+Để nâng cao hiệu quả quản lý dữ liệu, AWS khuyến nghị:
+
+- Xây dựng Backup Plan phù hợp.
+- Thực hiện kiểm thử khả năng Restore định kỳ.
+- Áp dụng AWS Backup Vault Lock nhằm tăng khả năng chống ransomware và bảo vệ bản sao lưu khỏi việc bị chỉnh sửa hoặc xóa ngoài ý muốn.
+
+---
+
+## KẾT LUẬN
+
+AWS Backup Search và Item-Level Recovery là một cải tiến đáng giá dành cho các đội DevOps và Cloud Operations.
+
+Thay vì phải khôi phục toàn bộ Snapshot chỉ để lấy lại một file nhỏ, giờ đây quản trị viên có thể tìm kiếm và phục hồi chính xác dữ liệu cần thiết trong thời gian ngắn hơn rất nhiều.
+
+Tính năng này không chỉ giúp giảm chi phí vận hành mà còn cải thiện đáng kể chỉ số **Recovery Time Objective (RTO)**, đồng thời đơn giản hóa quy trình quản lý và khôi phục dữ liệu trên môi trường AWS.
+
+---
+
+## Tài liệu tham khảo
+
+https://aws.amazon.com/blogs/storage/enable-item-level-search-and-recovery-for-amazon-ec2-with-aws-backup/
