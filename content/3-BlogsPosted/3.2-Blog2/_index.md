@@ -94,12 +94,6 @@ This capability helps reduce operational costs, minimize recovery time, improve 
 
 ---
 
-## Architecture Overview
-
-![AWS Backup Item-Level Recovery](/images/3-Blog/AWS-Backup-ILR.png)
-
----
-
 ## Reference
 
 https://aws.amazon.com/blogs/storage/enable-item-level-search-and-recovery-for-amazon-ec2-with-aws-backup/
