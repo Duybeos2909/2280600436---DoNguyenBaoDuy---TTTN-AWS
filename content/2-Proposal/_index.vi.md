@@ -5,104 +5,335 @@ weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-Tại phần này, bạn cần tóm tắt các nội dung trong workshop mà bạn **dự tính** sẽ làm.
+Trong phần này, tôi trình bày đề xuất kiến trúc hệ thống và kế hoạch triển khai cho dự án **Smart Attendance SaaS**, được thiết kế trong quá trình thực tập với vai trò **Cloud Serverless Architect**.
 
-# IoT Weather Platform for Lab Research  
-## Giải pháp AWS Serverless hợp nhất cho giám sát thời tiết thời gian thực  
+# Smart Attendance SaaS
+## Hệ thống quản lý chấm công đa Tenant trên nền tảng AWS Serverless
 
-### 1. Tóm tắt điều hành  
-IoT Weather Platform được thiết kế dành cho nhóm *ITea Lab* tại TP. Hồ Chí Minh nhằm nâng cao khả năng thu thập và phân tích dữ liệu thời tiết. Nền tảng hỗ trợ tối đa 5 trạm thời tiết, có khả năng mở rộng lên 10–15 trạm, sử dụng thiết bị biên Raspberry Pi kết hợp cảm biến ESP32 để truyền dữ liệu qua MQTT. Nền tảng tận dụng các dịch vụ AWS Serverless để cung cấp giám sát thời gian thực, phân tích dự đoán và tiết kiệm chi phí, với quyền truy cập giới hạn cho 5 thành viên phòng lab thông qua Amazon Cognito.  
+---
 
-### 2. Tuyên bố vấn đề  
-*Vấn đề hiện tại*  
-Các trạm thời tiết hiện tại yêu cầu thu thập dữ liệu thủ công, khó quản lý khi có nhiều trạm. Không có hệ thống tập trung cho dữ liệu hoặc phân tích thời gian thực, và các nền tảng bên thứ ba thường tốn kém và quá phức tạp.  
+## 1. Tổng quan dự án
 
-*Giải pháp*  
-Nền tảng sử dụng AWS IoT Core để tiếp nhận dữ liệu MQTT, AWS Lambda và API Gateway để xử lý, Amazon S3 để lưu trữ (bao gồm data lake), và AWS Glue Crawlers cùng các tác vụ ETL để trích xuất, chuyển đổi, tải dữ liệu từ S3 data lake sang một S3 bucket khác để phân tích. AWS Amplify với Next.js cung cấp giao diện web, và Amazon Cognito đảm bảo quyền truy cập an toàn. Tương tự như Thingsboard và CoreIoT, người dùng có thể đăng ký thiết bị mới và quản lý kết nối, nhưng nền tảng này hoạt động ở quy mô nhỏ hơn và phục vụ mục đích sử dụng nội bộ. Các tính năng chính bao gồm bảng điều khiển thời gian thực, phân tích xu hướng và chi phí vận hành thấp.  
+Smart Attendance SaaS là nền tảng quản lý chấm công đa tenant được xây dựng theo mô hình Cloud Native trên Amazon Web Services (AWS) với kiến trúc Serverless.
 
-*Lợi ích và hoàn vốn đầu tư (ROI)*  
-Giải pháp tạo nền tảng cơ bản để các thành viên phòng lab phát triển một nền tảng IoT lớn hơn, đồng thời cung cấp nguồn dữ liệu cho những người nghiên cứu AI phục vụ huấn luyện mô hình hoặc phân tích. Nền tảng giảm bớt báo cáo thủ công cho từng trạm thông qua hệ thống tập trung, đơn giản hóa quản lý và bảo trì, đồng thời cải thiện độ tin cậy dữ liệu. Chi phí hàng tháng ước tính 0,66 USD (theo AWS Pricing Calculator), tổng cộng 7,92 USD cho 12 tháng. Tất cả thiết bị IoT đã được trang bị từ hệ thống trạm thời tiết hiện tại, không phát sinh chi phí phát triển thêm. Thời gian hoàn vốn 6–12 tháng nhờ tiết kiệm đáng kể thời gian thao tác thủ công.  
+Hệ thống cho phép nhân viên thực hiện Check-in và Check-out thông qua GPS kết hợp Geofencing, đồng thời hỗ trợ quản trị viên theo dõi dữ liệu chấm công, quản lý nhân viên, nhận thông báo và tạo báo cáo chấm công theo tháng.
 
-### 3. Kiến trúc giải pháp  
-Nền tảng áp dụng kiến trúc AWS Serverless để quản lý dữ liệu từ 5 trạm dựa trên Raspberry Pi, có thể mở rộng lên 15 trạm. Dữ liệu được tiếp nhận qua AWS IoT Core, lưu trữ trong S3 data lake và xử lý bởi AWS Glue Crawlers và ETL jobs để chuyển đổi và tải vào một S3 bucket khác cho mục đích phân tích. Lambda và API Gateway xử lý bổ sung, trong khi Amplify với Next.js cung cấp bảng điều khiển được bảo mật bởi Cognito.  
+Giải pháp được đề xuất tập trung vào khả năng mở rộng, tính sẵn sàng cao, bảo mật và tối ưu chi phí bằng cách sử dụng các dịch vụ AWS Serverless thay cho mô hình triển khai máy chủ truyền thống.
 
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
+---
 
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+## 2. Bài toán đặt ra
 
-*Dịch vụ AWS sử dụng*  
-- *AWS IoT Core*: Tiếp nhận dữ liệu MQTT từ 5 trạm, mở rộng lên 15.  
-- *AWS Lambda*: Xử lý dữ liệu và kích hoạt Glue jobs (2 hàm).  
-- *Amazon API Gateway*: Giao tiếp với ứng dụng web.  
-- *Amazon S3*: Lưu trữ dữ liệu thô (data lake) và dữ liệu đã xử lý (2 bucket).  
-- *AWS Glue*: Crawlers lập chỉ mục dữ liệu, ETL jobs chuyển đổi và tải dữ liệu.  
-- *AWS Amplify*: Lưu trữ giao diện web Next.js.  
-- *Amazon Cognito*: Quản lý quyền truy cập cho người dùng phòng lab.  
+### Vấn đề cần giải quyết
 
-*Thiết kế thành phần*  
-- *Thiết bị biên*: Raspberry Pi thu thập và lọc dữ liệu cảm biến, gửi tới IoT Core.  
-- *Tiếp nhận dữ liệu*: AWS IoT Core nhận tin nhắn MQTT từ thiết bị biên.  
-- *Lưu trữ dữ liệu*: Dữ liệu thô lưu trong S3 data lake; dữ liệu đã xử lý lưu ở một S3 bucket khác.  
-- *Xử lý dữ liệu*: AWS Glue Crawlers lập chỉ mục dữ liệu; ETL jobs chuyển đổi để phân tích.  
-- *Giao diện web*: AWS Amplify lưu trữ ứng dụng Next.js cho bảng điều khiển và phân tích thời gian thực.  
-- *Quản lý người dùng*: Amazon Cognito giới hạn 5 tài khoản hoạt động.  
+Hiện nay nhiều doanh nghiệp vừa và nhỏ vẫn sử dụng hình thức chấm công thủ công hoặc các hệ thống triển khai tại chỗ (On-Premises), dẫn đến chi phí vận hành cao và khó mở rộng.
 
-### 4. Triển khai kỹ thuật  
-*Các giai đoạn triển khai*  
-Dự án gồm 2 phần — thiết lập trạm thời tiết biên và xây dựng nền tảng thời tiết — mỗi phần trải qua 4 giai đoạn:  
-1. *Nghiên cứu và vẽ kiến trúc*: Nghiên cứu Raspberry Pi với cảm biến ESP32 và thiết kế kiến trúc AWS Serverless (1 tháng trước kỳ thực tập).  
-2. *Tính toán chi phí và kiểm tra tính khả thi*: Sử dụng AWS Pricing Calculator để ước tính và điều chỉnh (Tháng 1).  
-3. *Điều chỉnh kiến trúc để tối ưu chi phí/giải pháp*: Tinh chỉnh (ví dụ tối ưu Lambda với Next.js) để đảm bảo hiệu quả (Tháng 2).  
-4. *Phát triển, kiểm thử, triển khai*: Lập trình Raspberry Pi, AWS services với CDK/SDK và ứng dụng Next.js, sau đó kiểm thử và đưa vào vận hành (Tháng 2–3).  
+Một số hạn chế phổ biến gồm:
 
-*Yêu cầu kỹ thuật*  
-- *Trạm thời tiết biên*: Cảm biến (nhiệt độ, độ ẩm, lượng mưa, tốc độ gió), vi điều khiển ESP32, Raspberry Pi làm thiết bị biên. Raspberry Pi chạy Raspbian, sử dụng Docker để lọc dữ liệu và gửi 1 MB/ngày/trạm qua MQTT qua Wi-Fi.  
-- *Nền tảng thời tiết*: Kiến thức thực tế về AWS Amplify (lưu trữ Next.js), Lambda (giảm thiểu do Next.js xử lý), AWS Glue (ETL), S3 (2 bucket), IoT Core (gateway và rules), và Cognito (5 người dùng). Sử dụng AWS CDK/SDK để lập trình (ví dụ IoT Core rules tới S3). Next.js giúp giảm tải Lambda cho ứng dụng web fullstack.  
+- Chấm công thủ công.
+- Khó quản lý nhiều công ty trên cùng một hệ thống.
+- Chi phí bảo trì hạ tầng lớn.
+- Không hỗ trợ thông báo theo thời gian thực.
+- Khả năng mở rộng hạn chế.
+- Khó giám sát và thống kê dữ liệu.
 
-### 5. Lộ trình & Mốc triển khai  
-- *Trước thực tập (Tháng 0)*: 1 tháng lên kế hoạch và đánh giá trạm cũ.  
-- *Thực tập (Tháng 1–3)*:  
-    - Tháng 1: Học AWS và nâng cấp phần cứng.  
-    - Tháng 2: Thiết kế và điều chỉnh kiến trúc.  
-    - Tháng 3: Triển khai, kiểm thử, đưa vào sử dụng.  
-- *Sau triển khai*: Nghiên cứu thêm trong vòng 1 năm.  
+### Giải pháp đề xuất
 
-### 6. Ước tính ngân sách  
-Có thể xem chi phí trên [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01)  
-Hoặc tải [tệp ước tính ngân sách](../attachments/budget_estimation.pdf).  
+Giải pháp đề xuất sử dụng kiến trúc AWS Serverless hoàn toàn, giúp loại bỏ việc quản lý máy chủ nhưng vẫn đảm bảo tính bảo mật, khả năng mở rộng và đáp ứng mô hình SaaS.
 
-*Chi phí hạ tầng*  
-- AWS Lambda: 0,00 USD/tháng (1.000 request, 512 MB lưu trữ).  
-- S3 Standard: 0,15 USD/tháng (6 GB, 2.100 request, 1 GB quét).  
-- Truyền dữ liệu: 0,02 USD/tháng (1 GB vào, 1 GB ra).  
-- AWS Amplify: 0,35 USD/tháng (256 MB, request 500 ms).  
-- Amazon API Gateway: 0,01 USD/tháng (2.000 request).  
-- AWS Glue ETL Jobs: 0,02 USD/tháng (2 DPU).  
-- AWS Glue Crawlers: 0,07 USD/tháng (1 crawler).  
-- MQTT (IoT Core): 0,08 USD/tháng (5 thiết bị, 45.000 tin nhắn).  
+Kiến trúc được xây dựng theo các nguyên tắc của **AWS Well-Architected Framework**, tập trung vào:
 
-*Tổng*: 0,7 USD/tháng, 8,40 USD/12 tháng  
-- *Phần cứng*: 265 USD một lần (Raspberry Pi 5 và cảm biến).  
+- Security (Bảo mật)
+- Reliability (Độ tin cậy)
+- Performance Efficiency (Hiệu năng)
+- Operational Excellence (Vận hành)
+- Cost Optimization (Tối ưu chi phí)
 
-### 7. Đánh giá rủi ro  
-*Ma trận rủi ro*  
-- Mất mạng: Ảnh hưởng trung bình, xác suất trung bình.  
-- Hỏng cảm biến: Ảnh hưởng cao, xác suất thấp.  
-- Vượt ngân sách: Ảnh hưởng trung bình, xác suất thấp.  
+Hệ thống sử dụng các dịch vụ:
 
-*Chiến lược giảm thiểu*  
-- Mạng: Lưu trữ cục bộ trên Raspberry Pi với Docker.  
-- Cảm biến: Kiểm tra định kỳ, dự phòng linh kiện.  
-- Chi phí: Cảnh báo ngân sách AWS, tối ưu dịch vụ.  
+- Amazon Cognito
+- Amazon API Gateway
+- AWS Lambda
+- Amazon DynamoDB
+- Amazon EventBridge
+- Amazon SQS
+- Amazon SNS
+- Amazon SES
+- AWS Location Service
+- AWS Step Functions
+- Amazon CloudWatch
 
-*Kế hoạch dự phòng*  
-- Quay lại thu thập thủ công nếu AWS gặp sự cố.  
-- Sử dụng CloudFormation để khôi phục cấu hình liên quan đến chi phí.  
+### Lợi ích mang lại
 
-### 8. Kết quả kỳ vọng  
-*Cải tiến kỹ thuật*: Dữ liệu và phân tích thời gian thực thay thế quy trình thủ công. Có thể mở rộng tới 10–15 trạm.  
-*Giá trị dài hạn*: Nền tảng dữ liệu 1 năm cho nghiên cứu AI, có thể tái sử dụng cho các dự án tương lai.
+Giải pháp mang lại nhiều lợi ích như:
+
+- Giảm chi phí vận hành nhờ kiến trúc Serverless.
+- Tự động mở rộng theo lưu lượng sử dụng.
+- Đảm bảo tính sẵn sàng cao.
+- Xác thực người dùng an toàn bằng Amazon Cognito.
+- Xử lý bất đồng bộ thông qua kiến trúc Event-Driven.
+- Hỗ trợ mô hình Multi-Tenant dễ dàng mở rộng trong tương lai.
+
+Ngoài ra, kiến trúc còn đóng vai trò là mô hình tham khảo cho các doanh nghiệp mong muốn hiện đại hóa hệ thống chấm công trên nền tảng AWS.
+
+---
+
+## 3. Kiến trúc giải pháp
+
+Smart Attendance SaaS được xây dựng theo kiến trúc AWS Serverless hoàn toàn.
+
+Người dùng xác thực thông qua Amazon Cognito trước khi truy cập các dịch vụ Backend được cung cấp bởi Amazon API Gateway.
+
+Toàn bộ nghiệp vụ được xử lý bởi AWS Lambda, trong khi dữ liệu chấm công được lưu trên Amazon DynamoDB theo mô hình Pooled Multi-Tenant.
+
+Các tác vụ xử lý nền được thực hiện thông qua Amazon EventBridge và Amazon SQS, đồng thời Amazon SNS và Amazon SES được sử dụng để gửi thông báo và báo cáo.
+
+Thông tin vị trí GPS của nhân viên được kiểm tra bằng AWS Location Service trước khi chấp nhận bản ghi chấm công.
+
+Sơ đồ kiến trúc được minh họa bên dưới.
+
+![Smart Attendance SaaS Architecture](/images/2-Proposal/SaaS_Serverless.jpg)
+
+### Các dịch vụ AWS sử dụng
+
+- Amazon Route 53
+- AWS WAF
+- Amazon CloudFront
+- Amazon S3
+- Amazon Cognito
+- Amazon API Gateway
+- AWS Lambda
+- Amazon DynamoDB
+- Amazon EventBridge
+- Amazon SQS
+- Amazon SNS
+- Amazon SES
+- AWS Location Service
+- AWS Step Functions
+- Amazon CloudWatch
+- AWS IAM
+- AWS CloudFormation
+
+### Thiết kế các thành phần
+
+**Frontend**
+
+- Ứng dụng React được lưu trữ trên Amazon S3.
+- Amazon CloudFront phân phối nội dung.
+
+**Xác thực**
+
+- Amazon Cognito User Pool.
+- Xác thực bằng JWT.
+
+**Backend**
+
+- Amazon API Gateway.
+- AWS Lambda.
+
+**Cơ sở dữ liệu**
+
+- Amazon DynamoDB theo mô hình Pooled Multi-Tenant.
+
+**Hệ thống nhắn tin**
+
+- Amazon EventBridge.
+- Amazon SQS.
+- Amazon SNS.
+- Amazon SES.
+
+**Kiểm tra vị trí**
+
+- AWS Location Service.
+
+**Giám sát**
+
+- Amazon CloudWatch.
+
+---
+
+## 4. Kế hoạch triển khai
+
+### Các giai đoạn thực hiện
+
+Dự án được chia thành bốn giai đoạn.
+
+**Giai đoạn 1**
+
+- Nghiên cứu yêu cầu nghiệp vụ.
+- Tìm hiểu các dịch vụ AWS.
+- Thiết kế kiến trúc Serverless ban đầu.
+
+**Giai đoạn 2**
+
+- Thiết kế xác thực bằng Amazon Cognito.
+- Thiết kế RESTful API.
+- Xây dựng mô hình dữ liệu DynamoDB.
+
+**Giai đoạn 3**
+
+- Thiết kế kiến trúc Event-Driven.
+- Tích hợp AWS Location Service.
+- Thiết kế quy trình gửi thông báo.
+
+**Giai đoạn 4**
+
+- Tối ưu kiến trúc tổng thể.
+- Ước tính chi phí triển khai.
+- Hoàn thiện tài liệu kỹ thuật.
+- Chuẩn bị báo cáo và thuyết trình.
+
+### Yêu cầu kỹ thuật
+
+Dự án yêu cầu kiến thức về:
+
+- AWS Serverless Architecture
+- Amazon Cognito
+- Amazon API Gateway
+- AWS Lambda
+- Amazon DynamoDB
+- Amazon EventBridge
+- Amazon SQS
+- Amazon SNS
+- Amazon SES
+- AWS Location Service
+- AWS Step Functions
+- Amazon CloudWatch
+
+---
+
+## 5. Tiến độ thực hiện
+
+### Kế hoạch theo từng tuần
+
+**Tuần 1**
+
+Tìm hiểu AWS Cloud và yêu cầu dự án.
+
+**Tuần 2**
+
+Nghiên cứu các dịch vụ AWS.
+
+**Tuần 3**
+
+Thiết kế kiến trúc ban đầu.
+
+**Tuần 4**
+
+Thiết kế xác thực bằng Amazon Cognito.
+
+**Tuần 5**
+
+Thiết kế Backend và cơ sở dữ liệu.
+
+**Tuần 6**
+
+Thiết kế kiến trúc Event-Driven.
+
+**Tuần 7**
+
+Tích hợp chức năng xác thực vị trí GPS.
+
+**Tuần 8**
+
+Thiết kế quy trình tạo báo cáo.
+
+**Tuần 9**
+
+Tăng cường bảo mật và giám sát hệ thống.
+
+**Tuần 10**
+
+Ước tính chi phí bằng AWS Pricing Calculator.
+
+**Tuần 11**
+
+Hoàn thiện sơ đồ kiến trúc và tài liệu kỹ thuật.
+
+**Tuần 12**
+
+Hoàn thiện báo cáo và chuẩn bị bảo vệ.
+
+---
+
+## 6. Ước tính chi phí
+
+Chi phí hạ tầng được ước tính bằng AWS Pricing Calculator với quy mô triển khai nhỏ phục vụ mục đích học tập và trình diễn.
+
+### Chi phí các dịch vụ
+
+- Amazon Route 53: **0.90 USD/tháng**
+- AWS WAF: **8.03 USD/tháng**
+- Amazon CloudFront: **2.50 USD/tháng**
+- Amazon S3: **0.35 USD/tháng**
+- Amazon Cognito: **0.00 USD/tháng**
+- Amazon API Gateway: **0.21 USD/tháng**
+- AWS Lambda: **0.81 USD/tháng**
+- Amazon DynamoDB: **0.70 USD/tháng**
+- AWS Location Service: **1.00 USD/tháng**
+- Amazon EventBridge: **0.05 USD/tháng**
+- Amazon SQS: **0.04 USD/tháng**
+- Amazon SNS: **0.02 USD/tháng**
+- Amazon SES: **0.50 USD/tháng**
+- AWS Step Functions: **0.25 USD/tháng**
+- Amazon CloudWatch Logs: **3.80 USD/tháng**
+- CloudWatch Metrics & Alarms: **1.00 USD/tháng**
+- CloudWatch Dashboard: **3.00 USD/tháng**
+- AWS Shield Standard: **0.00 USD/tháng**
+- AWS CloudFormation / AWS SAM: **0.00 USD/tháng**
+
+---
+
+**Tổng chi phí ước tính:** **Khoảng 23.16 USD/tháng**
+
+**Chi phí ước tính mỗi năm:** **Khoảng 277.92 USD/năm**
+
+Mức chi phí này phù hợp với một hệ thống thử nghiệm (Prototype) và có thể tăng khi số lượng doanh nghiệp, nhân viên hoặc lưu lượng sử dụng hệ thống tăng lên.
+
+---
+
+## 7. Đánh giá rủi ro
+
+### Các rủi ro
+
+- Cấu hình sai dịch vụ AWS.
+- Giả mạo vị trí GPS khi chấm công.
+- AWS Lambda vượt thời gian thực thi.
+- Lỗi hàng đợi Amazon SQS.
+- Phân vùng nóng (Hot Partition) trên DynamoDB.
+
+### Biện pháp giảm thiểu
+
+- Áp dụng nguyên tắc IAM Least Privilege.
+- Kiểm tra vị trí bằng AWS Location Service.
+- Sử dụng Dead Letter Queue cho Amazon SQS.
+- Theo dõi CloudWatch Metrics và Alarms.
+- Tối ưu Partition Key của DynamoDB.
+
+### Kế hoạch dự phòng
+
+- Thiết lập CloudWatch Alarm.
+- Thực hiện Retry thông qua Amazon SQS.
+- Khôi phục dữ liệu bằng DynamoDB Backup.
+- Điều chỉnh kiến trúc dựa trên phản hồi của Mentor.
+
+---
+
+## 8. Kết quả mong đợi
+
+### Kết quả kỹ thuật
+
+Dự án hướng tới các kết quả sau:
+
+- Kiến trúc AWS Serverless hoàn chỉnh.
+- Hệ thống SaaS đa tenant an toàn.
+- Kiến trúc Event-Driven.
+- Chức năng xác thực vị trí GPS.
+- Quy trình gửi thông báo tự động.
+- Ước tính chi phí bằng AWS Pricing Calculator.
+- Tài liệu kỹ thuật theo AWS Well-Architected Framework.
+
+### Giá trị lâu dài
+
+Giải pháp là mô hình tham khảo cho các doanh nghiệp muốn triển khai hệ thống chấm công trên nền tảng AWS Serverless, đồng thời tạo nền tảng để phát triển các ứng dụng SaaS Cloud-Native trong tương lai.
