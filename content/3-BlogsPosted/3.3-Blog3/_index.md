@@ -6,10 +6,6 @@ chapter: false
 pre: " <b> 3.3. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** into your report, including this warning.
-{{% /notice %}}
-
 # AWS COST OPTIMIZATION – Why Should Organizations Migrate Amazon EBS Volumes from gp2 to gp3?
 
 Hello everyone!

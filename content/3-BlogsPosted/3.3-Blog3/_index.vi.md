@@ -6,10 +6,6 @@ chapter: false
 pre: " <b> 3.3. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Nội dung dưới đây chỉ mang tính chất tham khảo. Vui lòng **không sao chép nguyên văn** vào báo cáo của bạn, bao gồm cả phần cảnh báo này.
-{{% /notice %}}
-
 # AWS COST OPTIMIZATION – Tối ưu chi phí Amazon EBS: Vì sao doanh nghiệp nên chuyển từ gp2 sang gp3?
 
 Xin chào mọi người!
