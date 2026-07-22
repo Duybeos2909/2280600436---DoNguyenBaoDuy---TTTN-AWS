@@ -1,9 +1,9 @@
 ---
-title: "Event 3"
+title: "Event 2"
 date: 2024-01-01
-weight: 3
+weight: 2
 chapter: false
-pre: " <b> 4.3. </b> "
+pre: " <b> 4.2. </b> "
 ---
 
 # Summary Report: “FCAJ Community Day - Data Driven, AI Risen”
