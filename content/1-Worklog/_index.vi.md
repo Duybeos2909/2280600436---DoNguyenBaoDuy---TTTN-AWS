@@ -6,32 +6,32 @@ chapter: false
 pre: " <b> 1. </b> "
 ---
 
-Trong suốt **12 tuần thực tập**, tôi tham gia nghiên cứu, thiết kế và xây dựng tài liệu kỹ thuật cho dự án **Smart Attendance SaaS** – một hệ thống quản lý chấm công đa doanh nghiệp (Multi-tenant) được thiết kế theo kiến trúc **AWS Serverless**.
+Trang này tổng hợp **nhật ký thực tập trong 12 tuần**, ghi lại quá trình học tập, nghiên cứu và những đóng góp kỹ thuật của tôi với vai trò **Cloud Serverless Architect** trong chương trình **First Cloud AI Journey (FCJ)**.
 
-Công việc chính của tôi bao gồm nghiên cứu các dịch vụ AWS, thiết kế kiến trúc hệ thống, xây dựng mô hình Event-Driven Architecture, tối ưu chi phí hạ tầng bằng AWS Pricing Calculator và hoàn thiện tài liệu kỹ thuật cho dự án.
+Trong suốt quá trình thực tập, tôi chịu trách nhiệm nghiên cứu các dịch vụ AWS, thiết kế kiến trúc AWS Serverless, đánh giá các giải pháp điện toán đám mây, ước tính chi phí hạ tầng và xây dựng tài liệu kỹ thuật cho dự án **Smart Attendance SaaS** – nền tảng quản lý chấm công đa tenant (Multi-Tenant).
 
-Nội dung công việc của từng tuần được trình bày như sau:
+## Tóm tắt công việc theo từng tuần
 
-**Tuần 1:** [Làm quen với AWS Cloud và mô hình Serverless](1.1-week1/)
+* **Tuần 1:** [Làm quen với AWS Cloud và giới thiệu dự án](1.1-week1/) – Tìm hiểu các kiến thức nền tảng về AWS Cloud, Serverless Computing, nghiên cứu yêu cầu của dự án Smart Attendance SaaS và xác định các dịch vụ AWS phù hợp.
 
-**Tuần 2:** [Nghiên cứu các dịch vụ AWS cho dự án Smart Attendance SaaS](1.2-week2/)
+* **Tuần 2:** [Phân tích yêu cầu và nghiên cứu dịch vụ AWS](1.2-week2/) – Phân tích yêu cầu nghiệp vụ, đánh giá các dịch vụ AWS và lựa chọn các thành phần phù hợp cho kiến trúc hệ thống.
 
-**Tuần 3:** [Thiết kế kiến trúc AWS Serverless ban đầu](1.3-week3/)
+* **Tuần 3:** [Thiết kế kiến trúc AWS Serverless](1.3-week3/) – Thiết kế kiến trúc hệ thống sử dụng Amazon Route 53, AWS WAF, Amazon CloudFront, Amazon S3, Amazon Cognito, Amazon API Gateway, AWS Lambda và Amazon DynamoDB.
 
-**Tuần 4:** [Thiết kế hệ thống xác thực với Amazon Cognito](1.4-week4/)
+* **Tuần 4:** [Thiết kế xác thực và mô hình Multi-Tenant](1.4-week4/) – Thiết kế cơ chế xác thực và phân quyền bằng Amazon Cognito với JWT Token, đồng thời xây dựng mô hình truy cập an toàn cho hệ thống đa tenant.
 
-**Tuần 5:** [Thiết kế API Gateway, AWS Lambda và Amazon DynamoDB](1.5-week5/)
+* **Tuần 5:** [Thiết kế Backend và tầng dữ liệu](1.5-week5/) – Thiết kế RESTful API bằng Amazon API Gateway và AWS Lambda, xây dựng mô hình dữ liệu trên Amazon DynamoDB và tối ưu các thao tác CRUD.
 
-**Tuần 6:** [Thiết kế kiến trúc hướng sự kiện với EventBridge, SQS và SNS](1.6-week6/)
+* **Tuần 6:** [Thiết kế kiến trúc hướng sự kiện (Event-Driven Architecture)](1.6-week6/) – Thiết kế các luồng xử lý bất đồng bộ sử dụng Amazon EventBridge, Amazon SQS, Amazon SNS và AWS Lambda phục vụ xử lý nền và gửi thông báo.
 
-**Tuần 7:** [Tích hợp AWS Location Service cho chức năng Check-in/Check-out](1.7-week7/)
+* **Tuần 7:** [Xác thực chấm công với AWS Location Service](1.7-week7/) – Thiết kế chức năng kiểm tra vị trí Check-in/Check-out bằng AWS Location Service, bao gồm Geofencing và xác minh vị trí người dùng.
 
-**Tuần 8:** [Thiết kế quy trình tạo báo cáo với AWS Step Functions và Amazon S3](1.8-week8/)
+* **Tuần 8:** [Tự động hóa quy trình và tạo báo cáo](1.8-week8/) – Thiết kế quy trình tạo báo cáo bằng AWS Step Functions, lưu trữ trên Amazon S3 và gửi thông báo qua Amazon SNS cùng Amazon SES.
 
-**Tuần 9:** [Hoàn thiện mô hình Multi-tenant, bảo mật và giám sát hệ thống](1.9-week9/)
+* **Tuần 9:** [Bảo mật, giám sát và đảm bảo tính sẵn sàng](1.9-week9/) – Tăng cường bảo mật với IAM, AWS WAF, giám sát hệ thống bằng Amazon CloudWatch và áp dụng các nguyên tắc của AWS Well-Architected Framework.
 
-**Tuần 10:** [Ước tính chi phí hệ thống bằng AWS Pricing Calculator](1.10-week10/)
+* **Tuần 10:** [Ước tính chi phí và tối ưu hạ tầng](1.10-week10/) – Sử dụng AWS Pricing Calculator để ước tính chi phí triển khai và tối ưu kiến trúc nhằm giảm chi phí vận hành.
 
-**Tuần 11:** [Hoàn thiện kiến trúc hệ thống và tài liệu kỹ thuật](1.11-week11/)
+* **Tuần 11:** [Hoàn thiện kiến trúc và tài liệu kỹ thuật](1.11-week11/) – Hoàn thiện sơ đồ kiến trúc AWS, tối ưu luồng xử lý giữa các dịch vụ và hoàn thành tài liệu kỹ thuật của dự án.
 
-**Tuần 12:** [Chuẩn bị báo cáo, workshop và tổng kết quá trình thực tập](1.12-week12/)
+* **Tuần 12:** [Báo cáo và bảo vệ kết quả thực tập](1.12-week12/) – Hoàn thiện kiến trúc hệ thống, hoàn thành báo cáo thực tập và chuẩn bị bài thuyết trình tổng kết.
