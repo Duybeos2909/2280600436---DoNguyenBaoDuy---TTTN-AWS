@@ -26,6 +26,7 @@ node -v
 npm -v
 git --version
 ```
+![CLI Tools Version Check](../../../images/A1.png)
 
 Sau khi xác nhận tất cả các công cụ đã được cài đặt đầy đủ, bạn có thể tiếp tục cấu hình tài khoản AWS.
 
@@ -115,7 +116,7 @@ Di chuyển đến thư mục làm việc và tải mã nguồn của dự án:
 ```bash
 cd ~/Documents/AWS
 
-git clone https://github.com/your-repository/smart-attendance-saas.git
+git clone https://github.com/karos2504/fcaj-workshop-template.git
 
 cd smart-attendance-saas
 ```
