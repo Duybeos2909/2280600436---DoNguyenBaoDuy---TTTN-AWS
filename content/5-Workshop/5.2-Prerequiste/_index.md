@@ -26,6 +26,7 @@ node -v
 npm -v
 git --version
 ```
+![CLI Tools Version Check](../../images/A1.png)
 
 After confirming that all tools are installed correctly, you can continue with the AWS account configuration.
 
