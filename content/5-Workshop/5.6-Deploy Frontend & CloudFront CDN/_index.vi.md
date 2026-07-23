@@ -176,9 +176,9 @@ Giữ tính năng S3 Block Public Access ở trạng thái bật khi Bucket đư
 
 ---
 
-#### 6. Tải ứng dụng React lên Amazon S3
+#### 6. Upload React Build lên Amazon S3
 
-Đồng bộ thư mục `dist/` với S3 Bucket:
+Đồng bộ thư mục `dist/` lên bucket S3:
 
 ```bash
 aws s3 sync \
@@ -187,9 +187,9 @@ aws s3 sync \
   --delete
 ```
 
-Tham số `--delete` xóa những Object cũ trên S3 không còn xuất hiện trong thư mục build hiện tại.
+Tham số `--delete` sẽ tự động xóa các file cũ trên S3 không còn tồn tại trong thư mục `dist/` hiện tại.
 
-Kiểm tra các file đã tải lên:
+Để kiểm tra các file đã được tải lên, sử dụng:
 
 ```bash
 aws s3 ls \
@@ -197,16 +197,27 @@ aws s3 ls \
   --recursive
 ```
 
-Kết quả mong đợi gồm:
+Các tệp được tải lên bao gồm:
 
 ```text
 index.html
-favicon.ico
+favicon.svg
+icons.svg
 assets/index-xxxx.js
 assets/index-xxxx.css
 ```
 
----
+Kết quả dưới đây minh họa quá trình build ứng dụng React bằng Vite và đồng bộ thành công các tệp tĩnh lên Amazon S3.
+
+![React Build và Upload lên S3](../../../images/A8.png)
+
+Từ kết quả trên có thể thấy:
+
++ Ứng dụng React đã được build thành công bằng Vite.
++ Các file tối ưu hóa được tạo trong thư mục `dist/`.
++ Các tệp HTML, JavaScript, CSS và biểu tượng đã được tải lên Amazon S3.
++ Tùy chọn `--delete` giúp đồng bộ bucket S3 với phiên bản mới nhất của ứng dụng.
++ Frontend đã sẵn sàng để được phân phối thông qua Amazon CloudFront hoặc S3 Static Website Hosting.
 
 #### 7. Cấu hình Amazon CloudFront
 

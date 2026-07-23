@@ -201,12 +201,23 @@ Expected objects include:
 
 ```text
 index.html
-favicon.ico
+favicon.svg
+icons.svg
 assets/index-xxxx.js
 assets/index-xxxx.css
 ```
 
----
+The following terminal output confirms that the React application was successfully built with Vite and synchronized to the Amazon S3 hosting bucket:
+
+![React Build and S3 Upload Result](../../images/A8.png)
+
+The successful output confirms that:
+
++ Vite completed the production build.
++ The optimized files were generated inside the `dist/` directory.
++ The JavaScript and CSS bundles were uploaded to Amazon S3.
++ The previous S3 objects not present in the latest build were removed through the `--delete` option.
++ The frontend assets are ready to be served through Amazon CloudFront or the Amazon S3 website endpoint.
 
 #### 7. Configure Amazon CloudFront
 
