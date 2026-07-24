@@ -116,7 +116,7 @@ Navigate to your preferred working directory and clone the workshop source code.
 ```bash
 cd ~/Documents/AWS
 
-git clone https://github.com/karos2504/fcaj-workshop-template.git
+git clone https://github.com/nganh25/smart-attendance-saas.git
 
 cd smart-attendance-saas
 ```

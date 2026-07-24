@@ -116,7 +116,7 @@ Di chuyển đến thư mục làm việc và tải mã nguồn của dự án:
 ```bash
 cd ~/Documents/AWS
 
-git clone https://github.com/karos2504/fcaj-workshop-template.git
+git clone https://github.com/nganh25/smart-attendance-saas.git
 
 cd smart-attendance-saas
 ```
