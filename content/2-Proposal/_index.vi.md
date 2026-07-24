@@ -254,41 +254,75 @@ Kiểm thử, tối ưu và hoàn thiện tài liệu.
 
 ---
 
-## 6. Dự toán chi phí
+## 6. Ước tính chi phí hạ tầng
 
-Chi phí được ước tính bằng AWS Pricing Calculator với Region Singapore.
+Chi phí hạ tầng được ước tính bằng **AWS Pricing Calculator** cho mô hình triển khai thử nghiệm của **Smart Attendance SaaS Platform** tại khu vực **Asia Pacific (Singapore)**.
 
 ### Chi phí hạ tầng
 
-Amazon Route 53: **0.50 USD/tháng**
+**Các dịch vụ AWS:**
 
-AWS WAF: **6.00 USD/tháng**
+Amazon Route 53: **15.50 USD/tháng** (01 Hosted Zone dùng để quản lý tên miền và định tuyến DNS).
 
-Amazon S3: **0.35 USD/tháng**
+Amazon CloudFront: **4.32 USD/tháng** (Mạng phân phối nội dung (CDN) toàn cầu cho React SPA với khoảng 30 GB dữ liệu truyền ra Internet và 500.000 HTTPS requests mỗi tháng).
 
-AWS Secrets Manager: **0.40 USD/tháng**
+AWS WAF v2: **11.00 USD/tháng** (01 Web ACL với 03 luật bảo vệ nhằm chống tấn công web, giới hạn tốc độ truy cập và lọc các yêu cầu độc hại).
 
-Amazon API Gateway: **0.20 USD/tháng**
+Amazon S3: **0.70 USD/tháng** (Lưu trữ giao diện React SPA và các tệp báo cáo với khoảng 15 GB dữ liệu chuẩn).
 
-AWS Lambda: **1.85 USD/tháng**
+Amazon Cognito: **0.00 USD/tháng** (500 người dùng hoạt động hàng tháng (MAU), vẫn nằm trong Free Tier).
 
-AWS Step Functions: **0.10 USD/tháng**
+AWS Secrets Manager: **0.45 USD/tháng** (01 Secret dùng để lưu trữ thông tin nhạy cảm và khóa cấu hình của hệ thống).
 
-Amazon DynamoDB: **0.60 USD/tháng**
+Amazon API Gateway (HTTP API): **0.63 USD/tháng** (Khoảng 500.000 yêu cầu HTTP API mỗi tháng sử dụng JWT Authorizer).
 
-AWS KMS: **1.00 USD/tháng**
+AWS Lambda: **1.35 USD/tháng** (Xử lý các chức năng đăng nhập, chấm công, quản trị, tạo báo cáo và webhook theo mô hình Serverless).
 
-Amazon SES: **0.10 USD/tháng**
+AWS Step Functions: **0.02 USD/tháng** (Điều phối quy trình tạo báo cáo bất đồng bộ bằng Express Workflow).
 
-CloudWatch + X-Ray + Security Hub: **2.40 USD/tháng**
+Amazon SQS: **0.20 USD/tháng** (Hàng đợi xử lý bất đồng bộ và Dead Letter Queue).
+
+Amazon DynamoDB (On-Demand): **0.85 USD/tháng** (Cơ sở dữ liệu Single-Table Design với khoảng 2 GB dữ liệu và bật DynamoDB Streams).
+
+AWS Key Management Service (KMS): **1.30 USD/tháng** (01 Customer Managed Key với khoảng 100.000 yêu cầu mã hóa/giải mã mỗi tháng).
+
+Amazon EventBridge: **0.02 USD/tháng** (Định tuyến sự kiện giữa các dịch vụ Serverless).
+
+Amazon Simple Email Service (SES): **0.56 USD/tháng** (Khoảng 5.000 email giao dịch gửi báo cáo và thông báo hệ thống).
+
+Amazon CloudWatch: **1.21 USD/tháng** (Thu thập log, giám sát hệ thống, Dashboard và CloudWatch Alarms).
+
+AWS X-Ray: **0.13 USD/tháng** (Theo dõi Distributed Tracing cho Lambda và API Gateway với tỷ lệ lấy mẫu 5%).
+
+AWS CodeBuild: **9.00 USD/tháng** (Môi trường Build phục vụ quá trình CI/CD và triển khai ứng dụng).
+
+AWS CodePipeline: **0.00 USD/tháng** (01 Pipeline triển khai tự động, nằm trong mức sử dụng ước tính).
+
+AWS Security Hub: **10.00 USD/tháng** (Giám sát tình trạng bảo mật và tuân thủ của môi trường AWS).
 
 ---
 
-**Tổng chi phí ước tính:** **13.50 USD/tháng**
+**Tổng chi phí hạ tầng ước tính:** **Khoảng 57.24 USD/tháng**
 
-**Chi phí năm:** **162 USD/năm**
+**Chi phí khởi tạo (Upfront Cost):** **0.00 USD**
 
----
+**Chi phí ước tính mỗi năm:** **Khoảng 686.88 USD/năm**
+
+Chi phí trên phù hợp với môi trường triển khai thử nghiệm (Prototype) và nghiên cứu, bao gồm đầy đủ các thành phần của hệ thống Serverless, bảo mật, giám sát, CI/CD và phân phối nội dung toàn cầu.
+
+Chi phí thực tế có thể thay đổi tùy thuộc vào:
+
+- Số lượng tổ chức (tenant) sử dụng hệ thống.
+- Số lượng người dùng đăng ký và hoạt động.
+- Khối lượng API Requests.
+- Tần suất và thời gian thực thi của AWS Lambda.
+- Lưu lượng đọc/ghi của Amazon DynamoDB.
+- Dung lượng truyền tải qua Amazon CloudFront.
+- Số lượng báo cáo được tạo mỗi tháng.
+- Số lượng email gửi qua Amazon SES.
+- Dung lượng log và mức độ giám sát trên Amazon CloudWatch.
+- Tần suất Build và Deploy của CI/CD Pipeline.
+- Khối lượng kiểm tra và giám sát bảo mật của AWS Security Hub.
 
 ## 7. Đánh giá rủi ro
 
