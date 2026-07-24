@@ -22,18 +22,3 @@ Bài viết phân tích lợi ích của việc chuyển đổi Amazon EBS từ 
 
 ---
 
-# Các bài Blog dịch
-
-Trong quá trình thực tập, bên cạnh việc tự nghiên cứu và chia sẻ các bài viết, tôi còn tìm hiểu và dịch một số bài viết kỹ thuật từ **AWS Official Blog**. Việc dịch các tài liệu này giúp tôi hiểu rõ hơn về các tính năng mới của AWS cũng như cách áp dụng chúng trong các hệ thống thực tế.
-
-### Blog 1 - Session Policies trong Amazon EKS Pod Identity
-
-Bài viết giới thiệu tính năng **Session Policies** mới của Amazon EKS Pod Identity. Nội dung giải thích cách kết hợp IAM Role với Session Policy để giới hạn quyền truy cập của từng Pod trong Kubernetes theo nguyên tắc **Least Privilege**, giúp giảm số lượng IAM Role cần quản lý, tăng tính linh hoạt trong phân quyền và đơn giản hóa việc vận hành các cụm Amazon EKS quy mô lớn.
-
-### Blog 2 - AWS Backup Search và Item-Level Recovery cho Amazon EBS và Amazon S3
-
-Bài viết trình bày chi tiết cơ chế hoạt động của tính năng **AWS Backup Search** và **Item-Level Recovery**, bao gồm cách AWS lập chỉ mục dữ liệu trong quá trình sao lưu, tìm kiếm tệp theo metadata và khôi phục trực tiếp từng tệp dữ liệu. Nội dung cũng đề cập đến các lưu ý khi triển khai Backup Indexing, quy trình khôi phục và các phương pháp tối ưu chiến lược sao lưu trong môi trường doanh nghiệp.
-
-### Blog 3 - Chuyển đổi Amazon EBS từ gp2 sang gp3 để tiết kiệm tới 20% chi phí
-
-Bài viết phân tích những cải tiến của Amazon EBS **gp3** so với **gp2**, đặc biệt là khả năng tách biệt giữa dung lượng lưu trữ, IOPS và Throughput. Nội dung giới thiệu các lợi ích về tối ưu chi phí, cải thiện hiệu năng, quy trình chuyển đổi không gây gián đoạn dịch vụ (Zero Downtime), cũng như các phương pháp tự động hóa việc nâng cấp bằng AWS Systems Manager, AWS Lambda và Infrastructure as Code.

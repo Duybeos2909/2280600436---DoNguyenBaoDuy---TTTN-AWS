@@ -22,18 +22,3 @@ This blog explains why organizations should migrate Amazon EBS volumes from **gp
 
 ---
 
-# Translated Blogs
-
-During the internship, I also translated and studied several technical articles published on the official AWS Blog. These articles helped me gain a deeper understanding of new AWS features and modern cloud architecture.
-
-### Blog 1 - Session Policies in Amazon EKS Pod Identity
-
-This article explains the newly introduced **Session Policies** feature in Amazon EKS Pod Identity. It demonstrates how Kubernetes workloads can share IAM roles while applying fine-grained permission restrictions for individual pods. By combining IAM roles with session policies, organizations can better implement the Principle of Least Privilege, simplify IAM role management, and reduce permission complexity in large Amazon EKS clusters.
-
-### Blog 2 - AWS Backup Search and Item-Level Recovery for Amazon EBS and Amazon S3
-
-This translated article presents the architecture and workflow behind the new **AWS Backup Search** capability. It explains how AWS indexes backup metadata to enable direct file searching and recovery from Amazon EBS and Amazon S3 backups. The article also introduces deployment considerations, backup indexing, recovery workflows, and operational best practices for enterprise backup strategies.
-
-### Blog 3 - Migrate Your Amazon EBS Volumes from gp2 to gp3 and Save up to 20% on Costs
-
-This translated article focuses on AWS recommendations for migrating Amazon EBS volumes from **gp2** to **gp3**. It analyzes the architectural improvements of gp3, explains how performance is decoupled from storage capacity, and demonstrates how organizations can reduce infrastructure costs while improving storage performance. The article also introduces migration planning, automation techniques, and monitoring practices using AWS services.
